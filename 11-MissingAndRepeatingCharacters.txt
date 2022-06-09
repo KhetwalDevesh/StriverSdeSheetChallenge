@@ -1,0 +1,65 @@
+#include <bits/stdc++.h> 
+using namespace std;
+#define ll long long
+pair<int,int> missingAndRepeating(vector<int> &arr, int n)
+{
+	// Write your code here
+
+// METHOD 2 : USING BIT
+// TC : O(n)
+// SC : O(1)
+    
+int xor1 = 0;
+for ( int i = 1 ; i <= n ; i++ )
+{
+    xor1 ^= i ;
+}
+    
+for ( int i = 0 ; i < n ; i++ )
+{
+    xor1 ^= arr[i] ;
+}
+ 
+int lastSetBit = xor1 & ( ~(xor1 - 1) ) ;
+
+int x = 0 ;
+int y = 0 ;
+for ( int i = 1 ; i <= n ; i++ )
+{
+    if( i & lastSetBit )
+    {
+        x ^= i ;
+    }
+    else
+    {
+        y ^= i ;
+    }
+}
+    
+for ( int i = 0 ; i < n ; i++ )
+{
+    if ( arr[i] & lastSetBit )
+    {
+        x ^= arr[i] ;
+    }
+    else
+    {
+        y ^= arr[i] ;
+    }
+}
+
+int countX = 0 ;
+for ( auto el : arr )
+{
+    if ( el == x )
+        countX++ ;
+}
+    
+if( countX > 0 )
+{
+    swap( x , y ) ;
+}
+    
+    return { x , y } ;
+    
+}
